@@ -8,10 +8,24 @@ const reducer = conbineReducers({
     name: nameReducer
 })
 const store = creteStore(reducer)
-console.dir(store.getState());
-store.subcribe((e) => { console.log('state is change ,now is', store.getState()) })
-setTimeout(() => {
-    store.dispatch({ type: 'SET_NAME', data: 'lisi' })
-}, 2000);
 
+const next = store.dispatch;
 
+const loggerMiddleware = (action) => {
+    console.log('state:', store.getState())
+    console.log('action:', action)
+    next(action)
+    console.log('state change:', store.getState())
+}
+
+const exceptMiddleware = (action) => {
+    try {
+        loggerMiddleware(action)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+store.dispatch = exceptMiddleware
+
+store.dispatch({ type: 'SET_NAME', data: 'lisi' })
