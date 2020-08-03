@@ -11,21 +11,28 @@ const store = creteStore(reducer)
 
 const next = store.dispatch;
 
-const loggerMiddleware = (action) => {
-    console.log('state:', store.getState())
-    console.log('action:', action)
+const loggerMiddleware = next => action => {
+    console.log('comeing loggerMiddleware')
     next(action)
-    console.log('state change:', store.getState())
 }
 
-const exceptMiddleware = (action) => {
+const exceptMiddleware = next => action => {
     try {
-        loggerMiddleware(action)
+        console.log('comeing exceptMiddleware')
+        console.log(next)
+        next(action)
     } catch (error) {
         console.log(error)
     }
 }
 
-store.dispatch = exceptMiddleware
+const timemapMiddleware = next => action => {
+    console.log('comeing timemapMiddleware')
+    console.log(new Date())
+    next(action)
+}
 
+
+store.dispatch = timemapMiddleware(exceptMiddleware(loggerMiddleware(next)))
 store.dispatch({ type: 'SET_NAME', data: 'lisi' })
+console.log(store.getState())
