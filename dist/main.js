@@ -94,7 +94,43 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./redux */ \"./redux/index.js\");\n/* harmony import */ var _reducer_ageReducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./reducer/ageReducer */ \"./reducer/ageReducer.js\");\n/* harmony import */ var _reducer_nameReducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./reducer/nameReducer */ \"./reducer/nameReducer.js\");\n\n\n\n\n\nconst reducer = Object(_redux__WEBPACK_IMPORTED_MODULE_0__[\"conbineReducers\"])({\n    age: _reducer_ageReducer__WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n    name: _reducer_nameReducer__WEBPACK_IMPORTED_MODULE_2__[\"default\"]\n})\nconst store = Object(_redux__WEBPACK_IMPORTED_MODULE_0__[\"creteStore\"])(reducer)\n\nconst next = store.dispatch;\n\nconst loggerMiddleware = next => action => {\n    console.log('comeing loggerMiddleware')\n    next(action)\n}\n\nconst exceptMiddleware = next => action => {\n    try {\n        console.log('comeing exceptMiddleware')\n        console.log(next)\n        next(action)\n    } catch (error) {\n        console.log(error)\n    }\n}\n\nconst timemapMiddleware = next => action => {\n    console.log('comeing timemapMiddleware')\n    next(action)\n    console.log(new Date())\n\n}\n\n\nstore.dispatch = timemapMiddleware(exceptMiddleware(loggerMiddleware(next)))\nstore.dispatch({ type: 'SET_NAME', data: 'lisi' })\nconsole.log(store.getState())\n\n\n//# sourceURL=webpack:///./index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./redux */ \"./redux/index.js\");\n/* harmony import */ var _reducer_ageReducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./reducer/ageReducer */ \"./reducer/ageReducer.js\");\n/* harmony import */ var _reducer_nameReducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./reducer/nameReducer */ \"./reducer/nameReducer.js\");\n/* harmony import */ var _middlewares_timemapMiddleware__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./middlewares/timemapMiddleware */ \"./middlewares/timemapMiddleware.js\");\n/* harmony import */ var _middlewares_exceptMiddleware__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./middlewares/exceptMiddleware */ \"./middlewares/exceptMiddleware.js\");\n/* harmony import */ var _middlewares_loggerMiddleware__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./middlewares/loggerMiddleware */ \"./middlewares/loggerMiddleware.js\");\n\n\n\n\n\n\n\nconst reducer = Object(_redux__WEBPACK_IMPORTED_MODULE_0__[\"conbineReducers\"])({\n    age: _reducer_ageReducer__WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n    name: _reducer_nameReducer__WEBPACK_IMPORTED_MODULE_2__[\"default\"]\n})\nconst store = Object(_redux__WEBPACK_IMPORTED_MODULE_0__[\"creteStore\"])(reducer)\n\nconst next = store.dispatch;\n\n\nconst timemap = Object(_middlewares_timemapMiddleware__WEBPACK_IMPORTED_MODULE_3__[\"timemapMiddleware\"])(store)\nconst except = Object(_middlewares_exceptMiddleware__WEBPACK_IMPORTED_MODULE_4__[\"exceptMiddleware\"])(store)\nconst logger = Object(_middlewares_loggerMiddleware__WEBPACK_IMPORTED_MODULE_5__[\"loggerMiddleware\"])(store)\n\nstore.dispatch = timemap(except(logger(next)))\nstore.dispatch({ type: 'SET_NAME', data: 'lisi' })\nconsole.log(store.getState())\n\n\n//# sourceURL=webpack:///./index.js?");
+
+/***/ }),
+
+/***/ "./middlewares/exceptMiddleware.js":
+/*!*****************************************!*\
+  !*** ./middlewares/exceptMiddleware.js ***!
+  \*****************************************/
+/*! exports provided: exceptMiddleware */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"exceptMiddleware\", function() { return exceptMiddleware; });\n\nconst exceptMiddleware = store => next => action => {\n    try {\n        console.log('comeing exceptMiddleware')\n        console.log(next)\n        next(action)\n    } catch (error) {\n        console.log(error)\n    }\n}\n\n\n//# sourceURL=webpack:///./middlewares/exceptMiddleware.js?");
+
+/***/ }),
+
+/***/ "./middlewares/loggerMiddleware.js":
+/*!*****************************************!*\
+  !*** ./middlewares/loggerMiddleware.js ***!
+  \*****************************************/
+/*! exports provided: loggerMiddleware */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"loggerMiddleware\", function() { return loggerMiddleware; });\n\nconst loggerMiddleware = store => next => action => {\n    console.log('comeing loggerMiddleware')\n    next(action)\n}\n\n\n//# sourceURL=webpack:///./middlewares/loggerMiddleware.js?");
+
+/***/ }),
+
+/***/ "./middlewares/timemapMiddleware.js":
+/*!******************************************!*\
+  !*** ./middlewares/timemapMiddleware.js ***!
+  \******************************************/
+/*! exports provided: timemapMiddleware */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"timemapMiddleware\", function() { return timemapMiddleware; });\nconst timemapMiddleware = store => next => action => {\n    console.log('comeing timemapMiddleware')\n    console.log(new Date())\n    console.log(store.getState())\n    next(action)\n}\n\n\n//# sourceURL=webpack:///./middlewares/timemapMiddleware.js?");
 
 /***/ }),
 
