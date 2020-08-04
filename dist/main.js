@@ -94,91 +94,91 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./redux */ \"./redux/index.js\");\n/* harmony import */ var _reducer_ageReducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./reducer/ageReducer */ \"./reducer/ageReducer.js\");\n/* harmony import */ var _reducer_nameReducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./reducer/nameReducer */ \"./reducer/nameReducer.js\");\n/* harmony import */ var _middlewares_timemapMiddleware__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./middlewares/timemapMiddleware */ \"./middlewares/timemapMiddleware.js\");\n/* harmony import */ var _middlewares_exceptMiddleware__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./middlewares/exceptMiddleware */ \"./middlewares/exceptMiddleware.js\");\n/* harmony import */ var _middlewares_loggerMiddleware__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./middlewares/loggerMiddleware */ \"./middlewares/loggerMiddleware.js\");\n\n\n\n\n\n\n\nconst reducer = Object(_redux__WEBPACK_IMPORTED_MODULE_0__[\"conbineReducers\"])({\n    age: _reducer_ageReducer__WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n    name: _reducer_nameReducer__WEBPACK_IMPORTED_MODULE_2__[\"default\"]\n})\nconst store = Object(_redux__WEBPACK_IMPORTED_MODULE_0__[\"creteStore\"])(reducer)\n\nconst next = store.dispatch;\n\n\nconst timemap = Object(_middlewares_timemapMiddleware__WEBPACK_IMPORTED_MODULE_3__[\"timemapMiddleware\"])(store)\nconst except = Object(_middlewares_exceptMiddleware__WEBPACK_IMPORTED_MODULE_4__[\"exceptMiddleware\"])(store)\nconst logger = Object(_middlewares_loggerMiddleware__WEBPACK_IMPORTED_MODULE_5__[\"loggerMiddleware\"])(store)\n\nstore.dispatch = timemap(except(logger(next)))\nstore.dispatch({ type: 'SET_NAME', data: 'lisi' })\nconsole.log(store.getState())\n\n\n//# sourceURL=webpack:///./index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./redux */ \"./redux/index.js\");\n/* harmony import */ var _reducer_no1__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./reducer/no1 */ \"./reducer/no1.js\");\n/* harmony import */ var _reducer_no2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./reducer/no2 */ \"./reducer/no2.js\");\n/* harmony import */ var _middleWares_asyncHanlde__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./middleWares/asyncHanlde */ \"./middleWares/asyncHanlde.js\");\n/* harmony import */ var _middleWares_logger__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./middleWares/logger */ \"./middleWares/logger.js\");\n/* harmony import */ var _middleWares_timesmap__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./middleWares/timesmap */ \"./middleWares/timesmap.js\");\n\n\n\n\n\n\n\n\nconst reducer = Object(_redux__WEBPACK_IMPORTED_MODULE_0__[\"combineReducer\"])({\n\tno1: _reducer_no1__WEBPACK_IMPORTED_MODULE_1__[\"no1Reducer\"],\n\tno2: _reducer_no2__WEBPACK_IMPORTED_MODULE_2__[\"no2Reducer\"]\n})\nconst store = Object(_redux__WEBPACK_IMPORTED_MODULE_0__[\"createStore\"])(reducer)\n\nconst next = store.dispatch\n\nconst time = Object(_middleWares_timesmap__WEBPACK_IMPORTED_MODULE_5__[\"timesmap\"])(store)\nconst asyncH = Object(_middleWares_asyncHanlde__WEBPACK_IMPORTED_MODULE_3__[\"asyncHanlde\"])(store)\nconst log = Object(_middleWares_logger__WEBPACK_IMPORTED_MODULE_4__[\"logger\"])(store)\n\nstore.dispatch = time(asyncH(log((next))))\n\n\nstore.subscribe(() => { console.log('state is changed:', store.getStore()) })\nstore.dispatch({\n\ttype: 'CHANGE_NO_1',\n\tdata: 'zhangsan'\n})\nstore.dispatch({\n\ttype: 'CHANGE_NO_2',\n\tdata: 'lisi'\n})\n\n\n\n//# sourceURL=webpack:///./index.js?");
 
 /***/ }),
 
-/***/ "./middlewares/exceptMiddleware.js":
-/*!*****************************************!*\
-  !*** ./middlewares/exceptMiddleware.js ***!
-  \*****************************************/
-/*! exports provided: exceptMiddleware */
+/***/ "./middleWares/asyncHanlde.js":
+/*!************************************!*\
+  !*** ./middleWares/asyncHanlde.js ***!
+  \************************************/
+/*! exports provided: asyncHanlde */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"exceptMiddleware\", function() { return exceptMiddleware; });\n\nconst exceptMiddleware = store => next => action => {\n    try {\n        console.log('comeing exceptMiddleware')\n        console.log(next)\n        next(action)\n    } catch (error) {\n        console.log(error)\n    }\n}\n\n\n//# sourceURL=webpack:///./middlewares/exceptMiddleware.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"asyncHanlde\", function() { return asyncHanlde; });\nconst asyncHanlde = store => next => action => {\n    setTimeout(() => {\n        next(action)\n    }, 1500)\n}\n\n\n//# sourceURL=webpack:///./middleWares/asyncHanlde.js?");
 
 /***/ }),
 
-/***/ "./middlewares/loggerMiddleware.js":
-/*!*****************************************!*\
-  !*** ./middlewares/loggerMiddleware.js ***!
-  \*****************************************/
-/*! exports provided: loggerMiddleware */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"loggerMiddleware\", function() { return loggerMiddleware; });\n\nconst loggerMiddleware = store => next => action => {\n    console.log('comeing loggerMiddleware')\n    next(action)\n}\n\n\n//# sourceURL=webpack:///./middlewares/loggerMiddleware.js?");
-
-/***/ }),
-
-/***/ "./middlewares/timemapMiddleware.js":
-/*!******************************************!*\
-  !*** ./middlewares/timemapMiddleware.js ***!
-  \******************************************/
-/*! exports provided: timemapMiddleware */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"timemapMiddleware\", function() { return timemapMiddleware; });\nconst timemapMiddleware = store => next => action => {\n    console.log('comeing timemapMiddleware')\n    console.log(new Date())\n    console.log(store.getState())\n    next(action)\n}\n\n\n//# sourceURL=webpack:///./middlewares/timemapMiddleware.js?");
-
-/***/ }),
-
-/***/ "./reducer/ageReducer.js":
+/***/ "./middleWares/logger.js":
 /*!*******************************!*\
-  !*** ./reducer/ageReducer.js ***!
+  !*** ./middleWares/logger.js ***!
   \*******************************/
-/*! exports provided: default */
+/*! exports provided: logger */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return reducer; });\nlet initState = {\n    age: 1\n}\n\nfunction reducer(state, action) {\n    if (!state) {\n        state = initState\n    }\n    switch (action.type) {\n        case 'SET_AGE':\n            return {\n                ...state,\n                age: action.data\n            }\n            break;\n        default:\n            return state\n            break;\n    }\n}\n\n\n//# sourceURL=webpack:///./reducer/ageReducer.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"logger\", function() { return logger; });\nconst logger = store => next => action => {\n    console.log('store before change111111', store.getStore())\n    console.log('action:', action)\n    next(action)\n    console.log('store has changed:2222222', store.getStore())\n}\n\n\n//# sourceURL=webpack:///./middleWares/logger.js?");
 
 /***/ }),
 
-/***/ "./reducer/nameReducer.js":
-/*!********************************!*\
-  !*** ./reducer/nameReducer.js ***!
-  \********************************/
-/*! exports provided: default */
+/***/ "./middleWares/timesmap.js":
+/*!*********************************!*\
+  !*** ./middleWares/timesmap.js ***!
+  \*********************************/
+/*! exports provided: timesmap */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return reducer; });\nlet initState = {\n    name: 'zhangsan'\n}\n\nfunction reducer(state, action) {\n    if (!state) {\n        state = initState\n    }\n    switch (action.type) {\n        case 'SET_NAME':\n            return {\n                ...state,\n                name: action.data\n            }\n            break;\n        default:\n            return state\n            break;\n    }\n}\n\n\n//# sourceURL=webpack:///./reducer/nameReducer.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"timesmap\", function() { return timesmap; });\n\nconst timesmap = store => next => action => {\n    console.log('timemap:', new Date())\n    next(action)\n}\n\n\n//# sourceURL=webpack:///./middleWares/timesmap.js?");
 
 /***/ }),
 
-/***/ "./redux/conbineReducers.js":
-/*!**********************************!*\
-  !*** ./redux/conbineReducers.js ***!
-  \**********************************/
-/*! exports provided: default */
+/***/ "./reducer/no1.js":
+/*!************************!*\
+  !*** ./reducer/no1.js ***!
+  \************************/
+/*! exports provided: no1Reducer */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return conbineReducers; });\nfunction conbineReducers(reducers) {\n    let nextState = {}\n    let reducersKeys = Object.keys(reducers)\n\n    /*返回合并后的新的reducer函数*/\n    return (state, action) => {\n        /*遍历执行所有的reducers，整合成为一个新的state*/\n        reducersKeys.forEach(name => {\n            let reducer = reducers[name] //reducer中的一个函数\n            nextState[name] = reducer(state[name], action) /*执行 分 reducer，获得新的state*/\n        })\n        return nextState\n    }\n}\n\n\n//# sourceURL=webpack:///./redux/conbineReducers.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"no1Reducer\", function() { return no1Reducer; });\n\nconst initSate = {\n    no1: '',\n}\nfunction no1Reducer(state, action) {\n    if (!state) {\n        state = initSate\n    }\n    switch (action.type) {\n        case 'CHANGE_NO_1':\n            return {\n                ...state,\n                no1: action.data\n            }\n        default:\n            return state\n    }\n}\n\n\n//# sourceURL=webpack:///./reducer/no1.js?");
 
 /***/ }),
 
-/***/ "./redux/creteStore.js":
-/*!*****************************!*\
-  !*** ./redux/creteStore.js ***!
-  \*****************************/
-/*! exports provided: default */
+/***/ "./reducer/no2.js":
+/*!************************!*\
+  !*** ./reducer/no2.js ***!
+  \************************/
+/*! exports provided: no2Reducer */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return creteStore; });\nfunction creteStore(reducer, initState) {\n    let state = initState || {}\n    const listeners = []\n\n    function getState() {\n        return state\n    }\n\n    function dispatch(action) {\n        // state = newState\n        state = reducer(state, action)\n        listeners.forEach(f => { f() })\n    }\n\n    function subcribe(f) {\n        listeners.push(f)\n    }\n\n    dispatch({ type: '' })\n\n    return {\n        getState,\n        dispatch,\n        subcribe\n    }\n}\n\n\n//# sourceURL=webpack:///./redux/creteStore.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"no2Reducer\", function() { return no2Reducer; });\nconst initSate = {\n    no2: '',\n}\nfunction no2Reducer(state, action) {\n    if (!state) {\n        state = initSate\n    }\n    switch (action.type) {\n        case 'CHANGE_NO_2':\n            return {\n                ...state,\n                no2: action.data\n            }\n        default:\n            return state\n    }\n}\n\n\n//# sourceURL=webpack:///./reducer/no2.js?");
+
+/***/ }),
+
+/***/ "./redux/combineReducer.js":
+/*!*********************************!*\
+  !*** ./redux/combineReducer.js ***!
+  \*********************************/
+/*! exports provided: combineReducer */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"combineReducer\", function() { return combineReducer; });\nfunction combineReducer(reducers) {\n\n    const reducersKey = Object.keys(reducers)\n\n    return (state = {}, action) => {\n        const newState = {}\n        reducersKey.forEach(key => {\n            let reducer = reducers[key]\n            newState[key] = reducer(state[key], action)\n        })\n        return newState\n    }\n}\n\n\n//# sourceURL=webpack:///./redux/combineReducer.js?");
+
+/***/ }),
+
+/***/ "./redux/createStore.js":
+/*!******************************!*\
+  !*** ./redux/createStore.js ***!
+  \******************************/
+/*! exports provided: createStore */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"createStore\", function() { return createStore; });\nfunction createStore(reducer, initSate) {\n    let state = initSate\n    const liesteners = []\n\n    function dispatch(action) {\n        state = reducer(state, action)\n        liesteners.forEach(f => f())\n    }\n\n    function subscribe(f) {\n        liesteners.push(f)\n    }\n\n    function getStore() {\n        return state\n    }\n\n    /* 注意！！！用一个不匹配任何计划的 type，来获取初始值 */\n    dispatch({ type: '' })\n\n    return {\n        getStore,\n        dispatch,\n        subscribe\n    }\n}\n\n\n//# sourceURL=webpack:///./redux/createStore.js?");
 
 /***/ }),
 
@@ -186,11 +186,11 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /*!************************!*\
   !*** ./redux/index.js ***!
   \************************/
-/*! exports provided: creteStore, conbineReducers */
+/*! exports provided: createStore, combineReducer */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _creteStore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./creteStore */ \"./redux/creteStore.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"creteStore\", function() { return _creteStore__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* harmony import */ var _conbineReducers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./conbineReducers */ \"./redux/conbineReducers.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"conbineReducers\", function() { return _conbineReducers__WEBPACK_IMPORTED_MODULE_1__[\"default\"]; });\n\n\n\n\n\n\n\n//# sourceURL=webpack:///./redux/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _createStore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./createStore */ \"./redux/createStore.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"createStore\", function() { return _createStore__WEBPACK_IMPORTED_MODULE_0__[\"createStore\"]; });\n\n/* harmony import */ var _combineReducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./combineReducer */ \"./redux/combineReducer.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"combineReducer\", function() { return _combineReducer__WEBPACK_IMPORTED_MODULE_1__[\"combineReducer\"]; });\n\n\n\n\n\n\n//# sourceURL=webpack:///./redux/index.js?");
 
 /***/ })
 

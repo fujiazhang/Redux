@@ -1,7 +1,6 @@
-import creteStore from "./creteStore";
-import conbineReducers from "./conbineReducers";
-
+import { createStore } from "./createStore";
+import { combineReducer } from "./combineReducer";
 export {
-    creteStore,
-    conbineReducers
+    createStore,
+    combineReducer
 }

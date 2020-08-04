@@ -1,23 +1,33 @@
-import { creteStore, conbineReducers } from "./redux";
-import ageReducer from "./reducer/ageReducer";
-import nameReducer from "./reducer/nameReducer";
-import { timemapMiddleware } from './middlewares/timemapMiddleware'
-import { exceptMiddleware } from './middlewares/exceptMiddleware'
-import { loggerMiddleware } from './middlewares/loggerMiddleware'
+import { createStore, combineReducer } from "./redux";
+import { no1Reducer } from "./reducer/no1";
+import { no2Reducer } from "./reducer/no2";
 
-const reducer = conbineReducers({
-    age: ageReducer,
-    name: nameReducer
+import { asyncHanlde } from "./middleWares/asyncHanlde";
+import { logger } from "./middleWares/logger";
+import { timesmap } from "./middleWares/timesmap";
+
+const reducer = combineReducer({
+	no1: no1Reducer,
+	no2: no2Reducer
 })
-const store = creteStore(reducer)
+const store = createStore(reducer)
 
-const next = store.dispatch;
+const next = store.dispatch
+
+const time = timesmap(store)
+const asyncH = asyncHanlde(store)
+const log = logger(store)
+
+store.dispatch = time(asyncH(log((next))))
 
 
-const timemap = timemapMiddleware(store)
-const except = exceptMiddleware(store)
-const logger = loggerMiddleware(store)
+store.subscribe(() => { console.log('state is changed:', store.getStore()) })
+store.dispatch({
+	type: 'CHANGE_NO_1',
+	data: 'zhangsan'
+})
+store.dispatch({
+	type: 'CHANGE_NO_2',
+	data: 'lisi'
+})
 
-store.dispatch = timemap(except(logger(next)))
-store.dispatch({ type: 'SET_NAME', data: 'lisi' })
-console.log(store.getState())
